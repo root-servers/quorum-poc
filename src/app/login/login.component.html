@@ -1,0 +1,22 @@
+<h3>Login to a quorum Node</h3>
+
+<mat-form-field>
+  <mat-label>Select a node</mat-label>
+  <mat-select>
+    <mat-option value="archipel">Archipel Content</mat-option>
+    <mat-option value="pulsar">Pulsar</mat-option>
+    <mat-option value="bank">Bank</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>User</mat-label>
+  <input matInput type="text">
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Password</mat-label>
+  <input matInput type="password">
+</mat-form-field>
+
+<button mat-raised-button color="primary" (click)="login()">Login</button>
