@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+};
+export const quorumNodes = {
+  archipelContent: 'https://e0rf4hbql8-e0cy67u40h-rpc.de0-aws.kaleido.io',
+  pulsar: 'https://e0rf4hbql8-e0zhtusyfh-rpc.de0-aws.kaleido.io',
+  bank: 'https://e0rf4hbql8-e0jbt507aa-rpc.de0-aws.kaleido.io',
 };
 
 /*

@@ -1,22 +1,36 @@
 <h3>Login to a quorum Node</h3>
 
-<mat-form-field>
-  <mat-label>Select a node</mat-label>
-  <mat-select>
-    <mat-option value="archipel">Archipel Content</mat-option>
-    <mat-option value="pulsar">Pulsar</mat-option>
-    <mat-option value="bank">Bank</mat-option>
-  </mat-select>
-</mat-form-field>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <mat-form-field>
+    <mat-label>Select a node</mat-label>
+    <mat-select formControlName="node">
+      <mat-option *ngFor="let node of nodes" [value]="node">
+        {{ node }}
+      </mat-option>
+    </mat-select>
+    <mat-hint>Node</mat-hint>
+    <mat-error *ngIf="loginForm.get('node').hasError('required')">
+      This field is required!
+    </mat-error>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>User</mat-label>
-  <input matInput type="text">
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>User</mat-label>
+    <input matInput type="text" formControlName="user">
+    <mat-hint>Username</mat-hint>
+    <mat-error *ngIf="loginForm.get('user').hasError('required')">
+      This field is required!
+    </mat-error>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Password</mat-label>
-  <input matInput type="password">
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password">
+    <mat-hint>Password</mat-hint>
+    <mat-error *ngIf="loginForm.get('password').hasError('required')">
+      This field is required!
+    </mat-error>
+  </mat-form-field>
 
-<button mat-raised-button color="primary" (click)="login()">Login</button>
+  <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.invalid">Login</button>
+</form>
