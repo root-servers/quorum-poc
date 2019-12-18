@@ -6,9 +6,18 @@ export const environment = {
   production: false,
 };
 export const quorumNodes = {
-  archipelContent: 'https://e0rf4hbql8-e0cy67u40h-rpc.de0-aws.kaleido.io',
-  pulsar: 'https://e0rf4hbql8-e0zhtusyfh-rpc.de0-aws.kaleido.io',
-  bank: 'https://e0rf4hbql8-e0jbt507aa-rpc.de0-aws.kaleido.io',
+  archipelContent: {
+    url: 'https://e0rf4hbql8-e0cy67u40h-rpc.de0-aws.kaleido.io',
+    user: 'e0xwcvgknw',
+  },
+  pulsar: {
+    url: 'https://e0rf4hbql8-e0zhtusyfh-rpc.de0-aws.kaleido.io',
+    user: 'e0xwcvgknw',
+  },
+  bank: {
+    url: 'https://e0rf4hbql8-e0jbt507aa-rpc.de0-aws.kaleido.io',
+    user: 'e0xwcvgknw',
+  },
 };
 
 /*

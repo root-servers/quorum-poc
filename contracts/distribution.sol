@@ -3,10 +3,12 @@ pragma solidity ^0.5.14;
 contract Distribution {
 
     // STATE
-    address payable public participantA;
+    address public participantA;
     address public participantB;
 
     uint256 public share; // participant A's share in percent (ex: 10 = 10%, meaning that B get 90%)
+
+    bool public isFinalized;
 
     bool public pendingProposition;
     bool public isFromA;
@@ -39,6 +41,11 @@ contract Distribution {
         _;
     }
 
+    modifier notFinalized() {
+        require(!isFinalized, 'You cannot call this function on a finalized proposition!');
+        _;
+    }
+
     // EVENTS
     event NewProposition(address by, uint256 indexed share);
     event PropositionAccepted(address by, uint256 indexed share);
@@ -46,32 +53,34 @@ contract Distribution {
     event PropositionFinalized(address by, uint256 indexed share);
 
     // LOGIC
-    constructor(address _participantB, uint256 initialShare) public validPercent(initialShare) {
-        participantA = msg.sender;
+    constructor(address _participantA, address _participantB, uint256 initialShare) public validPercent(initialShare) {
+        participantA = _participantA;
         participantB = _participantB;
         share = 101;
+
+        isFinalized = false;
 
         pendingProposition = true;
         isFromA = true;
         pendingShare = initialShare;
-        emit NewProposition(msg.sender, initialShare);
+        emit NewProposition(participantA, initialShare);
     }
 
-    function proposeNewShare(uint256 newShare) public onlyParticipant() noRunningProposition() validPercent(newShare) {
+    function proposeNewShare(uint256 newShare) public onlyParticipant() notFinalized() noRunningProposition() validPercent(newShare) {
         pendingShare = newShare;
         isFromA = msg.sender == participantA;
         pendingProposition = true;
         emit NewProposition(msg.sender, newShare);
     }
 
-    function accept() public onlyParticipant() runningProposition() notAuthorOfProposition() {
+    function accept() public onlyParticipant() notFinalized() runningProposition() notAuthorOfProposition() {
         share = pendingShare;
         pendingShare = 0;
         pendingProposition = false;
         emit PropositionAccepted(msg.sender, share);
     }
 
-    function deny() public onlyParticipant() runningProposition() notAuthorOfProposition() {
+    function deny() public onlyParticipant() notFinalized() runningProposition() notAuthorOfProposition() {
         pendingShare = 0;
         pendingProposition = false;
         emit PropositionDenied(msg.sender, share);
@@ -79,6 +88,20 @@ contract Distribution {
 
     function finalize() public noRunningProposition() {
         emit PropositionFinalized(msg.sender, share); // emit before selfdestruct
-        selfdestruct(participantA);
+        isFinalized = true;
+    }
+
+    // For some reason (maybe byzantuium) the compiler will not let me direclty acces public value direclty from another contract
+
+    function getFinalized() public view returns(bool) {
+        return isFinalized;
+    }
+
+    function getParticipant() public view returns(address) {
+        return participantB;
+    }
+
+    function getShare() public view returns(uint256) {
+        return share;
     }
 }

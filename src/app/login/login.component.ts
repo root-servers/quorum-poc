@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QuorumService } from '../+state/quorum.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,9 @@ export class LoginComponent implements OnInit {
   nodes: string[];
   loginForm: FormGroup;
 
+  loading$: Observable<boolean>;
+  error$: Observable<string>;
+
   constructor(
     private formBuilder: FormBuilder,
     private service: QuorumService
@@ -20,18 +24,20 @@ export class LoginComponent implements OnInit {
 
     this.loginForm = this.formBuilder.group({
       node: new FormControl('', Validators.required),
-      user: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
+
+    this.loading$ = this.service.loading$;
+    this.error$ = this.service.error$;
   }
 
   ngOnInit() {
   }
 
   login() {
-    const {node, user, password} = this.loginForm.value;
-    console.log(node, user, password);
-    this.service.login(node, user, password);
+    const {node, password} = this.loginForm.value;
+    console.log(node, password);
+    this.service.login(node, password);
   }
 
 }

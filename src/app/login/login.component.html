@@ -15,15 +15,6 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>User</mat-label>
-    <input matInput type="text" formControlName="user">
-    <mat-hint>Username</mat-hint>
-    <mat-error *ngIf="loginForm.get('user').hasError('required')">
-      This field is required!
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field>
     <mat-label>Password</mat-label>
     <input matInput type="password" formControlName="password">
     <mat-hint>Password</mat-hint>
@@ -32,5 +23,10 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.invalid">Login</button>
+  <ng-container *ngIf="(loading$ | async); else notLoading">
+    <mat-spinner></mat-spinner>
+  </ng-container>
+  <ng-template #notLoading>
+    <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.invalid">Login</button>
+  </ng-template>
 </form>
