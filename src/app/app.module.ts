@@ -11,12 +11,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ArchipelComponent } from './archipel/archipel.component';
+import { PulsarComponent } from './pulsar/pulsar.component';
+import { BankComponent } from './bank/bank.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    ArchipelComponent,
+    PulsarComponent,
+    BankComponent
   ],
   imports: [
     FormsModule,

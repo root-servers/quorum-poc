@@ -1,6 +1,9 @@
 <h3>Login to a quorum Node</h3>
 
 <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <mat-error>
+    {{error$ | async}}
+  </mat-error>
   <mat-form-field>
     <mat-label>Select a node</mat-label>
     <mat-select formControlName="node">

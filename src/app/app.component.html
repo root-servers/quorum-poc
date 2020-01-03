@@ -4,4 +4,5 @@
     Welcome to {{ title }}!
   </h1>
 </div>
+<button *ngIf="(logged$ | async)" mat-raised-button color="primary" (click)="logout()">Logout</button>
 <router-outlet></router-outlet>
